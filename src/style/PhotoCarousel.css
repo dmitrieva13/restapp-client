@@ -1,0 +1,20 @@
+.Carousel {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.carouselButton {
+    /* background-color:white; */
+    border-radius: 50px;
+    border-color: black;
+    border-width: 2px;
+    height: fit-content;
+    width: fit-content;
+}
+
+.carouselButton:hover {
+  border-color: brown;
+}

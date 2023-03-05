@@ -1,0 +1,27 @@
+.buttonsBlock {
+  padding: 10px 20px 20px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+a:any-link {
+    color:white;
+}
+
+a:visited {
+    color:wheat;
+}
+
+.menu {
+    background-color:rgb(53, 30, 11);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(28, 22, 15, 0.3);
+}
+
+.booking {
+    background-color: rgb(99, 31, 4);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(28, 22, 15, 0.3);
+}
