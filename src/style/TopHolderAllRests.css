@@ -1,0 +1,35 @@
+.topBlock {
+    width: 100vw;
+    height: 80px;
+    /* background-color: white; */
+    position: absolute;
+    top: 0px;
+    fill: white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.appTitle {
+  font-size: 36px;
+  font-weight: lighter;
+  color: rgb(20,20,20);
+  /* background-color: white; */
+  text-shadow: 0px 0px 2.5px white;
+  padding-left: 40px;
+  padding-top: 25px;
+}
+
+.user {
+    font-size: 18px;
+    color: rgb(20,20,20);
+    padding-top: 30px;
+    padding-right: 40px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+}
+
+.user:hover {
+    text-shadow: 0px 0px 10px rgba(56, 46, 33, 0.2);
+}

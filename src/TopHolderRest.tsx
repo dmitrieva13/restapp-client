@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './style/TopHolder.css'
+import './style/TopHolderRest.css'
 
 function TopHolder(props: {name: string}) {
 

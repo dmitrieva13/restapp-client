@@ -1,34 +1,29 @@
 import { useState } from 'react'
 import './style/PhotoCarousel.css'
 
-function Carousel(props: {links: string[]}) {
-
-  const [index, setIndex] = useState(0);
-  const length = props.links.length
-
-  const handlePrevious = () => {
-    const newIndex = index - 1;
-    setIndex(newIndex < 0 ? length - 1 : newIndex);
-  };
-
-  const handleNext = () => {
-    const newIndex = index + 1;
-    setIndex(newIndex >= length ? 0 : newIndex);
-  };
+function Carousel(props: {imgArr: string[], index: number}) {
 
   return (
-    <div className='Carousel'>
-      <button className='carouselButton' onClick={handlePrevious}>
-        <img src='./images/prev.png' style={{width: "20px"}}></img>
-      </button>
-      <div className='currentImage'>
-        <img src={props.links.at(index)} 
-        style={{height: '300px', maxWidth: '500px'}}></img>
-      </div>
-      <button className='carouselButton' onClick={handleNext}>
-      <img src='./images/next.png' style={{width: "20px"}}></img>
-      </button>
-    </div>
+    <div className="imagesBlock">
+          {/* <div className="image">
+            {props.imgArr.at(props.index)}
+          </div>
+          <div className="dots">
+            {props.imgArr.map((image, i) => {
+              // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
+              if (props.imgArr) {
+                if ((props.imgArr.length || 0) < 2)
+                return
+              }
+              let idStr = i.toString()
+              console.log(idStr)
+              return(
+                <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
+                key={i} onClick={imageIndexChange}> </div>
+              )
+            })}
+          </div> */}
+        </div>
   )
 }
 

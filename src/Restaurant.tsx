@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import './style/App.css'
 // import Carousel from './PhotosCarousel'
 // import Buttons from './RestaurantButtons'
-import TopHolder from './TopHolder'
+import TopHolder from './TopHolderRest'
 
-function App() {
+function RestaurantPage() {
 
   let infoArr = {
     mainImgs: ["first"],
@@ -464,4 +464,4 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   )
 }
 
-export default App
+export default RestaurantPage
