@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import './style/App.css'
-// import Carousel from './PhotosCarousel'
-// import Buttons from './RestaurantButtons'
 import TopHolder from './TopHolderRest'
+import { Link, useParams } from 'react-router-dom';
+import LoadingPage from './LoadingPage'
+
 
 function RestaurantPage() {
+
+  let { restaurantId } = useParams();
+
 
   let infoArr = {
     mainImgs: ["first"],
@@ -76,8 +80,10 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     ]
   }
 
+
   const [fetched, fetchedSet] = useState(0)
   const [addess, addessSet] = useState("")
+  const [restaurantName, restaurantNameSet] = useState("")
   const [workingHours, workingHoursSet] = useState([])
   const [contacts, contactsSet] = useState("")
   const [descripton, descriptonSet] = useState("")
@@ -111,7 +117,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     if(!fetched) {
       fetch("https://restapp.onrender.com/restaurant", {
           method: "POST",
-          body: JSON.stringify({restaurant_id: "1"}),
+          body: JSON.stringify({restaurant_id: restaurantId}),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -119,14 +125,15 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
       }).then(res=>res.json())
       .then(response=>{
 
+        fetchedSet(1)
+        restaurantNameSet(response.name)
+        console.log(response)
         // addessSet(response.restaurant.address)
         // contactsSet(response.restaurant.contacts)
         // descriptonSet(response.restaurant.description)
 
         // let wh = response.restaurant.working_hours
         // workingHoursSet(wh.split("\n"))
-
-        fetchedSet(1)
       })
       .catch(error=>{console.log(error)})
 
@@ -148,11 +155,11 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
           return
         }
         if (!loading) {
-          console.log("target: ", e.target)
+          // console.log("target: ", e.target)
           if (e.deltaY > 0) {
             // scrolling down
             if (screenNumber < 4) {
-              console.log(screenNumber)
+              // console.log(screenNumber)
               ++screenNumber;
             }
           } else {
@@ -240,7 +247,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
       setActiveDots('0')
     }, 200)
     //indexSet(indexes.at(1))
-    console.log(infoArr)
+    // console.log(infoArr)
   }
 
   let imageIndexChange = (e: any) => {
@@ -263,7 +270,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
 
   let setError = (inputName: string) => {
     let input = document.querySelector("."+inputName)
-    console.log(input)
+    // console.log(input)
     if (input != null) {
       input.className += " invalid"
       input.addEventListener("click", e => {
@@ -336,13 +343,13 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     bookedCommntSet("")
   }
 
-
+  if(fetched){
   return (
     <div className='App'>
       <div className="welcomeImages" style={{marginTop: `-${100*screen}vh`}}>
 
       </div>
-      <TopHolder name={infoArr.mainInfo.name} />
+      <TopHolder name={restaurantName} />
 
       <div className="screen">
         <div className="textInfo">
@@ -403,7 +410,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
                 return
               }
               let idStr = i.toString()
-              console.log(idStr)
+              // console.log(idStr)
               return(
                 <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
                 key={i} onClick={imageIndexChange}> </div>
@@ -414,7 +421,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
       </div>
 
       {infoArr.screens.map((inform, indexScreen) => {
-        console.log("screen: ", indexScreen)
+        // console.log("screen: ", indexScreen)
         return(
         <div className="screen" key={indexScreen}>
         <div className="textInfo">
@@ -450,7 +457,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
                 return
               }
               let idStr = i.toString()
-              console.log(idStr)
+              // console.log(idStr)
               return(
                 <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
                 key={i} onClick={imageIndexChange}> </div>
@@ -462,6 +469,11 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
 
     </div>
   )
+  } else {
+    return(
+      <LoadingPage />
+    )
+  }
 }
 
 export default RestaurantPage

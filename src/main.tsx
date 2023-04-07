@@ -1,13 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Restaurant from './Restaurant'
-import AllRestaurants from './AllRestPage'
-import User from './User'
+import {Routes, Route} from 'react-router-dom'
+
+import App from './App'
+import {
+    BrowserRouter as Router,
+  } from "react-router-dom";
+  
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    // <React.StrictMode>
-    // <AllRestaurants />
-        // <Restaurant />
-        <User />
-    // </React.StrictMode>
+    <Router>
+        <App />
+    </Router>
 )
