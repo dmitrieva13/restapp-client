@@ -84,13 +84,18 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   const [fetched, fetchedSet] = useState(0)
   const [addess, addessSet] = useState("")
   const [restaurantName, restaurantNameSet] = useState("")
-  const [workingHours, workingHoursSet] = useState([])
-  const [contacts, contactsSet] = useState("")
-  const [descripton, descriptonSet] = useState("")
+  const [mainScreen, mainScreenSet] = useState<any>(null)
+  const [screensArr, screensArrSet] = useState<any[]>([])
+  // const [workingHours, workingHoursSet] = useState([])
+  // const [contacts, contactsSet] = useState("")
+  // const [descripton, descriptonSet] = useState("")
 
   const [screen, screenSet] = useState(0)
   const [index, indexSet] = useState(0)
   const [imageNum, imageNumSet] = useState(0)
+  const [screenCount, screenCountSet] = useState(0)
+
+  const [loading, loadingSet] = useState(false)
 
   const [guestName, guestNameSet] = useState("")
   const [guestSurname, guestSurnameSet] = useState("")
@@ -100,6 +105,20 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   const [bookedComment, bookedCommntSet] = useState("")
 
   const [todaysDate, todaysDateSet] = useState("")
+  const [isMainScreen, isMainScreenSet] = useState(0)
+
+
+  let underlineTitle = (targetId: string) => {
+    let titleDivs = Array.from(document.querySelectorAll(".title"))
+    titleDivs.map((title: any, i: number) => {
+      if (title.id == targetId) {
+        title.className = "title selected"
+      } else {
+          title.className = "title"
+        }
+      }
+    )
+  }
 
   let setActiveDots = (i: string) => {
     let dots = document.querySelectorAll(".dot")
@@ -113,8 +132,75 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     })
   }
 
+  // let loading = false;
+      // let screenNumber = 0;
+      let scrolling = (e: any) => {
+        console.log("target: " + screen)
+        if (e.target.className === 'textBlock' && 
+            e.target.scrollHeight > e.target.offsetHeight && 
+            ((e.target.scrollTop > 0 && e.deltaY < 0) ||
+              (e.target.scrollHeight - e.target.scrollTop - 
+              e.target.clientHeight > 1 && e.deltaY > 0))) {
+          return
+        }
+        if (!loading) {
+          let screenNumber = screen
+          console.log(screenNumber)
+          if (e.deltaY > 0) {
+            // scrolling down
+            if (screenNumber < screenCount) {
+              // console.log(screenNumber)
+              ++screenNumber;
+              let dotsClass = document.querySelector(".welcomeDots")
+              if (dotsClass != null) {
+                dotsClass.className += " invisible"
+              }
+              // screenSet(screen + 1)
+            }
+          } else {
+            // scrolling up
+            if (screenNumber != 0) {
+              // screenSet(screen-1)
+              --screenNumber;
+              if (screenNumber == 0) {
+                let dotsClass = document.querySelector(".welcomeDots")
+                  if (dotsClass != null) {
+                    dotsClass.className = "welcomeDots dots"
+                  }
+              }
+            }
+          }
+          // screenSet(screenNumber)
+          // indexSet(0)
+          // imageNumSet(0)
+          // setTimeout(function(){
+          //   // console.log(scrolling)
+          //   indexSet(0)
+          //   imageNumSet(0)
+          // }, 1000)
+
+          indexSet(0)
+          setTimeout(function(){
+            // console.log(scrolling
+            imageNumSet(0)
+            setActiveDots('0')
+          }, 1000)
+
+          loadingSet(true)
+          screenSet(screenNumber)
+          setTimeout(function(){
+            // console.log(scrolling)
+            loadingSet(false)
+          }, 1000)
+
+          let idStr = (screenNumber - isMainScreen - 1) + ".0"
+          underlineTitle(idStr)
+        }
+      }
+
   useEffect(() => {
     if(!fetched) {
+      // fetchedSet(1)
       fetch("https://restapp.onrender.com/restaurant", {
           method: "POST",
           body: JSON.stringify({restaurant_id: restaurantId}),
@@ -122,11 +208,30 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
-      }).then(res=>res.json())
+      }
+      ).then(res=>res.json())
       .then(response=>{
 
         fetchedSet(1)
         restaurantNameSet(response.name)
+        // mainScreenSet(response.screens.filtering)
+        response.screens.map((scr: any) => {
+          if (scr.type == "main") {
+            mainScreenSet(scr)
+            isMainScreenSet(1)
+          }
+        })
+        console.log("FIRING")
+
+        screensArrSet(response.screens)
+        screenCountSet(response.screens.length)
+        // response.screens.map((screen: any) => {
+        //   if (screen.type == "description") {
+        //     screensArr.push(screen)
+        //   }
+        // })
+        // console.log(screensArr)
+
         console.log(response)
         // addessSet(response.restaurant.address)
         // contactsSet(response.restaurant.contacts)
@@ -138,61 +243,65 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
       .catch(error=>{console.log(error)})
 
       let date = new Date()
-      let day = date.getDate();
+      let day = date.getDate() >= 10 ? date.getDate().toString() : "0" + date.getDate()
       let month = (date.getMonth() + 1) >= 10 ? (date.getMonth() + 1).toString() : "0"+(date.getMonth() + 1);
       let year = date.getFullYear();
       let dateStr = `${year}-${month}-${day}`
       todaysDateSet(dateStr)
+      console.log(todaysDate)
 
-      let loading = false;
-      let screenNumber = 0;
-      let scroll = (e: any) => {
-        if (e.target.className == 'textBlock' && 
-            e.target.scrollHeight > e.target.offsetHeight && 
-            ((e.target.scrollTop > 0 && e.deltaY < 0) ||
-              (e.target.scrollHeight - e.target.scrollTop - 
-              e.target.clientHeight > 1 && e.deltaY > 0))) {
-          return
-        }
-        if (!loading) {
-          // console.log("target: ", e.target)
-          if (e.deltaY > 0) {
-            // scrolling down
-            if (screenNumber < 4) {
-              // console.log(screenNumber)
-              ++screenNumber;
-            }
-          } else {
-            // scrolling up
-            if (screenNumber != 0) {
-              --screenNumber;
-            }
-          }
-          screenSet(screenNumber)
-          // indexSet(0)
-          // imageNumSet(0)
-          // setTimeout(function(){
-          //   // console.log(scrolling)
-          //   indexSet(0)
-          //   imageNumSet(0)
-          // }, 1000)
+      // let loading = false;
+      // let screenNumber = 0;
+      // let scroll = (e: any) => {
+      //   console.log("target: " + e.target)
+      //   if (e.target.className == 'textBlock' && 
+      //       e.target.scrollHeight > e.target.offsetHeight && 
+      //       ((e.target.scrollTop > 0 && e.deltaY < 0) ||
+      //         (e.target.scrollHeight - e.target.scrollTop - 
+      //         e.target.clientHeight > 1 && e.deltaY > 0))) {
+      //     return
+      //   }
+      //   if (!loading) {
+      //     console.log("in scroll")
+      //     if (e.deltaY > 0) {
+      //       // scrolling down
+      //       if (screenNumber < 4) {
+      //         // console.log(screenNumber)
+      //         ++screenNumber;
+      //       }
+      //     } else {
+      //       // scrolling up
+      //       if (screenNumber != 0) {
+      //         --screenNumber;
+      //       }
+      //     }
+      //     screenSet(screenNumber)
+      //     // indexSet(0)
+      //     // imageNumSet(0)
+      //     // setTimeout(function(){
+      //     //   // console.log(scrolling)
+      //     //   indexSet(0)
+      //     //   imageNumSet(0)
+      //     // }, 1000)
 
-          setTimeout(function(){
-            // console.log(scrolling)
-            indexSet(0)
-            imageNumSet(0)
-            setActiveDots('0')
-          }, 1000)
+      //     setTimeout(function(){
+      //       // console.log(scrolling)
+      //       indexSet(0)
+      //       imageNumSet(0)
+      //       setActiveDots('0')
+      //     }, 1000)
 
-          loading = true
-          setTimeout(function(){
-            // console.log(scrolling)
-            loading = false
-          }, 1000)
-        }
-      }
-      document.querySelector(".App")?.addEventListener('wheel', scroll)
+      //     loading = true
+      //     setTimeout(function(){
+      //       // console.log(scrolling)
+      //       loading = false
+      //     }, 1000)
+      //   }
+      // }
+      // document.querySelector(".App")?.addEventListener('wheel', scroll)
+      // console.log(document.querySelector(".App"))
 
+      // ).catch(error=>{console.log(error)})
       // let textIndexChange = (e: any) => {
       //   let id = e.target.id
       //   let indexes = id.split(".")
@@ -243,9 +352,12 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     imageNumSet(0)
     setTimeout(function(){
       // console.log(scrolling)
+      console.log(id);
+      
       indexSet(indexes.at(1))
       setActiveDots('0')
     }, 200)
+    underlineTitle(id)
     //indexSet(indexes.at(1))
     // console.log(infoArr)
   }
@@ -345,11 +457,33 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
 
   if(fetched){
   return (
-    <div className='App'>
+    <div className='App' onWheel={scrolling}>
+      {mainScreen != null &&
       <div className="welcomeImages" style={{marginTop: `-${100*screen}vh`}}>
-
+      {/* <div className="imagesBlock"> */}
+          <div className="image">
+              <img className="welcomeImg" src={mainScreen.info.at(0).images?.at(imageNum)} loading="eager"/>
+          </div>
+          <div className="welcomeDots dots">
+            {mainScreen.info.at(0).images?.map((image: any, i: number) => {
+              // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
+              //if (inform.images) {
+                if ((mainScreen.info.at(0).images?.length || 0) < 2)
+                return
+              //}
+              let idStr = i.toString()
+              console.log(imageNum)
+              return(
+                <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
+                key={i} onClick={imageIndexChange}> </div>
+              )
+            })}
+          </div>
+      
+        {/* </div> */}
       </div>
-      <TopHolder name={restaurantName} />
+  }
+      <TopHolder name={restaurantName} user={localStorage.getItem("username") || ""} />
 
       <div className="screen">
         <div className="textInfo">
@@ -398,7 +532,7 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
             <div className="bookingButton" onClick={sendBooking}>ЗАБРОНИРОВАТЬ</div></div>
           </div>
         </div>
-        <div className="imagesBlock">
+        {/* <div className="imagesBlock">
           <div className="image">
             {infoArr.bookingImgs.at(imageNum)}
           </div>
@@ -417,20 +551,24 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
               )
             })}
           </div>
-        </div>
+        </div> */}
       </div>
 
-      {infoArr.screens.map((inform, indexScreen) => {
-        // console.log("screen: ", indexScreen)
+      {screensArr != null &&
+      screensArr.map((inform, indexScreen) => {
+        if (inform.type != "main") {
+        console.log("screen: ", inform.info.at(index), "i: ", index)
         return(
         <div className="screen" key={indexScreen}>
         <div className="textInfo">
           <div className="titlesBlock">
-            {infoArr.screens.at(indexScreen)?.info.map((titles, index) => {
-              let idStr = (indexScreen) + "." + index
+          {inform.info.map((screenInfo: any, i: number) => {
+            // {infoArr.screens.at(indexScreen)?.info.map((titles, index) => {
+              let idStr = (indexScreen - isMainScreen) + "." + i
+              let cname = i == 0 ? "title selected" : "title" 
               return(
-                <div id={idStr} className="title" key={index} onClick={textIndexChange}>
-                  {infoArr.screens.at(indexScreen)?.info.at(index)?.title}
+                <div id={idStr} className={cname} key={i} onClick={textIndexChange}>
+                  {screenInfo.title}
                 </div>
               )
             })}
@@ -442,30 +580,34 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
             </div> */}
           </div>
           <div className="textBlock">
-            {infoArr.screens.at(indexScreen)?.info.at(index)?.text}
+            {inform.info.at(index)?.text}
           </div>
         </div>
         <div className="imagesBlock">
           <div className="image">
-            {infoArr.screens.at(indexScreen)?.info.at(index)?.images?.at(imageNum)}
+            {(indexScreen + 1 == screen) &&
+              <img src={inform.info.at(index).images?.at(imageNum)} loading="eager"/>
+            }
           </div>
           <div className="dots">
-            {infoArr.screens.at(indexScreen)?.info.at(index)?.images.map((image, i) => {
+            {(indexScreen + 1 == screen) &&
+            inform.info.at(index).images?.map((image: any, i: number) => {
               // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
-              if (infoArr.screens.at(indexScreen)?.info.at(index)?.images) {
-                if ((infoArr.screens.at(indexScreen)?.info.at(index)?.images.length || 0) < 2)
+              //if (inform.images) {
+                if ((inform.info.at(index).images?.length || 0) < 2)
                 return
-              }
+              //}
               let idStr = i.toString()
-              // console.log(idStr)
+              console.log(imageNum)
               return(
                 <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
                 key={i} onClick={imageIndexChange}> </div>
               )
             })}
           </div>
+      
         </div>
-      </div>)})}
+      </div>)}})}
 
     </div>
   )

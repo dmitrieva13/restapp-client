@@ -1,18 +1,39 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './style/AllRestPage.css'
 
-function RestaurantDisplay(props: {name: string, address: string, img: string}) {
+function RestaurantDisplay(props: {id: string, name: string, address: string, 
+  img: string, desc: string, wh: string, contacts: string}) {
 
+  const navigate = useNavigate()
+
+let goToPath = () => {
+    navigate("/" + props.id)
+}
   return (
-    <div className="restaurantIcon">
-        <div className="restaurantImage">
+    <div className="restaurantIcon" onClick={goToPath}>
+        {/* <div className="restaurantImage">
             {props.img}
-        </div>
-        <div className="restaurantName">
+        </div> */}
+        <div className="restName">
             {props.name}
         </div>
-        <div className="restaurantAddress">
-            {props.address}
+        <div className="restaurantInformation">
+          <div className="restaurantAddress">
+              {props.address}
+          </div>
+          <div className="restaurantContacts">
+            {props.contacts}
+          </div>
+          <div className="hoursTitle">
+            Время работы:
+          </div>
+          <div className="restaurantHours">
+            {props.wh}
+          </div>
+        </div>
+        <div className="restaurantDesc">
+          {props.desc}
         </div>
     </div>
   )

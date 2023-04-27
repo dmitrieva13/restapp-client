@@ -1,0 +1,108 @@
+.CreateRestPage {
+    width: 100vw;
+    height: 100vh;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+input[type=text] {
+    min-width: 50px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgb(200, 200, 200);
+    background-color:white;
+    font-weight: bolder;
+    transition-duration: 0.3s;
+  }
+  
+  input[type=text]:focus {
+    border: none;
+    border-bottom: 2px solid rgb(40, 40, 40);
+  }
+
+  button {
+    background-color: white;
+    width: fit-content;
+    border: 1px solid;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition-duration: 0.5s;
+  }
+
+  button:hover {
+    box-shadow: 0px 0px 3px 3px rgba(90, 90, 90, 0.15);
+  }
+
+.createRestInfoBlock {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    margin-top: 50px;
+    /* margin-right: 50px; */
+    border-right: solid 2px rgb(40, 40, 40);
+    box-shadow: 6px 0 4px -4px rgba(7, 7, 7, 0.2);
+}
+
+.createRestTextBlock {
+    width: 180px;
+    /* background-color: blueviolet; */
+}
+
+.createRestName, .createRestId {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    /* background-color: cadetblue; */
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.IdInputBlock {
+    width: 100%;
+}
+
+.smallTextBlock {
+    color: rgb(150, 150, 150);
+    font-size: 14px;
+    font-weight: lighter;
+    padding: 2px;
+    cursor: default;
+  }
+
+  .triangleBlock {
+    width: 0px;
+   height: 0px;
+   border-style: solid;
+   border-width: 15px 0 15px 26.0px;
+   border-color: transparent transparent transparent rgb(40, 40, 40);
+   transform: rotate(0deg);
+  }
+
+  .createRestScreensBlock {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .createScreenText {
+    margin-left: 20px;
+    height: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .invisible {
+    display: none;
+  }
+
+  .NewScreen {
+    flex-grow: 2;
+  }

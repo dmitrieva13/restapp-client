@@ -1,0 +1,83 @@
+.EmployeeLoginPage, .userLoginPage {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+input[type=text] {
+    min-width: 50px;
+    border: none;
+    border-bottom: 2px solid rgb(200, 200, 200);
+    background-color:white;
+    font-weight: bolder;
+    transition-duration: 0.3s;
+  }
+  
+  input[type=text]:focus {
+    border: none;
+    border-bottom: 2px solid rgb(40, 40, 40);
+  }
+
+  input.invalid {
+    border-color: red;
+  }
+
+  button {
+    background-color: white;
+    width: fit-content;
+    border: 1px solid;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition-duration: 0.5s;
+  }
+
+  button:hover {
+    box-shadow: 0px 0px 3px 3px rgba(90, 90, 90, 0.15);
+  }
+
+  .EmployeeInputsBlock, .userInputsBlock {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    justify-content: center;
+    padding-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .loginTitle {
+    width: 100%;
+    padding-top: 150px;
+    font-size: 20px;
+  }
+
+  .EmployeeEmaiInputBlock, .EmployeePasswordInputBlock, .userEmaiInputBlock,
+  .userPasswordInputBlock {
+    margin: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+  }
+
+  .employeeLoginTextBlock, .userLoginTextBlock {
+    width: 50px;
+  }
+
+  .toEmployeeBlock, .toUserBlock {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+  }
+
+  .loginError {
+    width: 100%;
+    color: red;
+    font-size: 18px;
+    font-weight: lighter;
+  }
