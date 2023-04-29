@@ -3,6 +3,9 @@ import './style/App.css'
 import TopHolder from './TopHolderRest'
 import { Link, useParams } from 'react-router-dom';
 import LoadingPage from './LoadingPage'
+import Poster from './Poster';
+import Booking from './Booking';
+import InfoScreen from './InfoScreen';
 
 
 function RestaurantPage() {
@@ -97,12 +100,12 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
 
   const [loading, loadingSet] = useState(false)
 
-  const [guestName, guestNameSet] = useState("")
-  const [guestSurname, guestSurnameSet] = useState("")
-  const [bookedDate, bookedDateSet] = useState("")
-  const [bookedTime, bookedTimeSet] = useState("")
-  const [guestsNum, guestsNumSet] = useState("")
-  const [bookedComment, bookedCommntSet] = useState("")
+  // const [guestName, guestNameSet] = useState("")
+  // const [guestSurname, guestSurnameSet] = useState("")
+  // const [bookedDate, bookedDateSet] = useState("")
+  // const [bookedTime, bookedTimeSet] = useState("")
+  // const [guestsNum, guestsNumSet] = useState("")
+  // const [bookedComment, bookedCommntSet] = useState("")
 
   const [todaysDate, todaysDateSet] = useState("")
   const [isMainScreen, isMainScreenSet] = useState(0)
@@ -380,234 +383,102 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
     }, 200)
   }
 
-  let setError = (inputName: string) => {
-    let input = document.querySelector("."+inputName)
-    // console.log(input)
-    if (input != null) {
-      input.className += " invalid"
-      input.addEventListener("click", e => {
-        let found = document.querySelector("."+inputName)
-        if (found != null) {
-          found.className = inputName
-        }
-      })
-    }
-  }
+  // let setError = (inputName: string) => {
+  //   let input = document.querySelector("."+inputName)
+  //   // console.log(input)
+  //   if (input != null) {
+  //     input.className += " invalid"
+  //     input.addEventListener("click", e => {
+  //       let found = document.querySelector("."+inputName)
+  //       if (found != null) {
+  //         found.className = inputName
+  //       }
+  //     })
+  //   }
+  // }
 
-  let makeVisisble = (className: string) => {
-    let divClass = document.querySelector("." + className)
-    if (divClass != null) {
-      divClass.className = className
-    }
-  }
+  // let makeVisisble = (className: string) => {
+  //   let divClass = document.querySelector("." + className)
+  //   if (divClass != null) {
+  //     divClass.className = className
+  //   }
+  // }
 
-  let makeInvisisble = (className: string) => {
-    let divClass = document.querySelector("." + className)
-    if (divClass != null) {
-      divClass.className += " invisible"
-    }
-  }
+  // let makeInvisisble = (className: string) => {
+  //   let divClass = document.querySelector("." + className)
+  //   if (divClass != null) {
+  //     divClass.className += " invisible"
+  //   }
+  // }
 
-  let sendBooking = () => {
-    let success = true
-    let bookingJSON = {
-      "name": guestName,
-      "surname": guestSurname,
-      "date": bookedDate,
-      "time": bookedTime,
-      "guestsNum": guestsNum,
-      "comment": bookedComment
-    }
-    if (bookingJSON.name.length < 1) {
-      success = false
-      setError("nameInput")
-    }
-    if (bookingJSON.surname.length < 1) {
-      success = false
-      setError("surnameInput")
-    }
-    if (bookingJSON.date.length < 1) {
-      success = false
-      setError("dateInput")
-    }
-    if (bookingJSON.time.length < 1) {
-      success = false
-      setError("timeInput")
-    }
-    if (bookingJSON.guestsNum.length < 1) {
-      success = false
-      setError("guestsInput")
-    }
-    if (!success) {
-      return
-    }
-    makeInvisisble("bookingFormBlock")
-    makeVisisble("bookingSuccessBlock")
-    setTimeout(function(){
-      makeVisisble("bookingFormBlock")
-      makeInvisisble("bookingSuccessBlock")
-    }, 2000)
-    guestNameSet("")
-    guestSurnameSet("")
-    bookedDateSet("")
-    bookedTimeSet("")
-    guestsNumSet("")
-    bookedCommntSet("")
-  }
+  // let sendBooking = () => {
+  //   let success = true
+  //   let bookingJSON = {
+  //     "name": guestName,
+  //     "surname": guestSurname,
+  //     "date": bookedDate,
+  //     "time": bookedTime,
+  //     "guestsNum": guestsNum,
+  //     "comment": bookedComment
+  //   }
+  //   if (bookingJSON.name.length < 1) {
+  //     success = false
+  //     setError("nameInput")
+  //   }
+  //   if (bookingJSON.surname.length < 1) {
+  //     success = false
+  //     setError("surnameInput")
+  //   }
+  //   if (bookingJSON.date.length < 1) {
+  //     success = false
+  //     setError("dateInput")
+  //   }
+  //   if (bookingJSON.time.length < 1) {
+  //     success = false
+  //     setError("timeInput")
+  //   }
+  //   if (bookingJSON.guestsNum.length < 1) {
+  //     success = false
+  //     setError("guestsInput")
+  //   }
+  //   if (!success) {
+  //     return
+  //   }
+  //   makeInvisisble("bookingFormBlock")
+  //   makeVisisble("bookingSuccessBlock")
+  //   setTimeout(function(){
+  //     makeVisisble("bookingFormBlock")
+  //     makeInvisisble("bookingSuccessBlock")
+  //   }, 2000)
+  //   guestNameSet("")
+  //   guestSurnameSet("")
+  //   bookedDateSet("")
+  //   bookedTimeSet("")
+  //   guestsNumSet("")
+  //   bookedCommntSet("")
+  // }
 
   if(fetched){
   return (
     <div className='App' onWheel={scrolling}>
       {mainScreen != null &&
-      <div className="welcomeImages" style={{marginTop: `-${100*screen}vh`}}>
-      {/* <div className="imagesBlock"> */}
-          <div className="image">
-              <img className="welcomeImg" src={mainScreen.info.at(0).images?.at(imageNum)} loading="eager"/>
-          </div>
-          <div className="welcomeDots dots">
-            {mainScreen.info.at(0).images?.map((image: any, i: number) => {
-              // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
-              //if (inform.images) {
-                if ((mainScreen.info.at(0).images?.length || 0) < 2)
-                return
-              //}
-              let idStr = i.toString()
-              console.log(imageNum)
-              return(
-                <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
-                key={i} onClick={imageIndexChange}> </div>
-              )
-            })}
-          </div>
+      <Poster imgArr={mainScreen.info.at(0).images} screen={screen} />
       
-        {/* </div> */}
-      </div>
   }
       <TopHolder name={restaurantName} user={localStorage.getItem("username") || ""} />
 
-      <div className="screen">
-        <div className="textInfo">
-          <div className="titlesBlock">
-            <div className="title" style={{cursor: 'default'}}>Бронирование</div>
-          </div>
-          <div className="bookingSuccessBlock invisible">
-            <div className="successText">
-              Ваше бронирование отправлено в ресторан!
-            </div>
-          </div>
-          <div className="bookingFormBlock">
-            <div className="namesBlock">
-              <div className="nameBlock">
-                <input className="nameInput" type="text" maxLength={50} value={guestName} 
-                onChange={e => guestNameSet(e.target.value)}></input>
-                <div className="inputText">Имя</div>
-              </div>
-              <div className="surnameBlock">
-                <input className="surnameInput" type="text" maxLength={50} value={guestSurname} 
-                onChange={e => guestSurnameSet(e.target.value)}></input>
-                <div className="inputText">Фамилия</div>
-              </div>
-            </div>
-            <div className="timesBlock">
-              <div className="datetimeBlock">
-                <input className="dateInput" type="date" value={bookedDate} min={todaysDate}
-                onChange={e => bookedDateSet(e.target.value)}></input>
-                <input className="timeInput" type="time" value={bookedTime} 
-                onChange={e => bookedTimeSet(e.target.value)}></input>
-              </div>
-              <div className="inputText">Дата и время</div>
-            </div>
-            <div className="guestsBlock">
-              <input className="guestsInput" type="text" value={guestsNum} onChange={event => {
-                guestsNumSet(event.target.value.replace(/[^0-9]/,''))
-                }}/>
-              <div className="inputText">Количество гостей</div>
-            </div>
-            <div className="commentBlock">
-              <input type="text" maxLength={100} value={bookedComment} 
-                onChange={e => bookedCommntSet(e.target.value)}></input>
-              <div className="inputText">Комментарий к брони</div>
-            </div>
-            <div className="booking">
-            <div className="bookingButton" onClick={sendBooking}>ЗАБРОНИРОВАТЬ</div></div>
-          </div>
-        </div>
-        {/* <div className="imagesBlock">
-          <div className="image">
-            {infoArr.bookingImgs.at(imageNum)}
-          </div>
-          <div className="dots">
-            {infoArr.bookingImgs.map((image, i) => {
-              // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
-              if (infoArr.bookingImgs) {
-                if ((infoArr.bookingImgs.length || 0) < 2)
-                return
-              }
-              let idStr = i.toString()
-              // console.log(idStr)
-              return(
-                <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
-                key={i} onClick={imageIndexChange}> </div>
-              )
-            })}
-          </div>
-        </div> */}
-      </div>
+      <Booking />
+      
 
       {screensArr != null &&
       screensArr.map((inform, indexScreen) => {
         if (inform.type != "main") {
         console.log("screen: ", inform.info.at(index), "i: ", index)
         return(
-        <div className="screen" key={indexScreen}>
-        <div className="textInfo">
-          <div className="titlesBlock">
-          {inform.info.map((screenInfo: any, i: number) => {
-            // {infoArr.screens.at(indexScreen)?.info.map((titles, index) => {
-              let idStr = (indexScreen - isMainScreen) + "." + i
-              let cname = i == 0 ? "title selected" : "title" 
-              return(
-                <div id={idStr} className={cname} key={i} onClick={textIndexChange}>
-                  {screenInfo.title}
-                </div>
-              )
-            })}
-            {/* <div id="0.0" className="title">
-              {infoArr.screens.at(0)?.info.at(0)?.title}
-            </div>
-            <div id="0.1" className="title">
-              {infoArr.screens.at(0)?.info.at(1)?.title}
-            </div> */}
-          </div>
-          <div className="textBlock">
-            {inform.info.at(index)?.text}
-          </div>
-        </div>
-        <div className="imagesBlock">
-          <div className="image">
-            {(indexScreen + 1 == screen) &&
-              <img src={inform.info.at(index).images?.at(imageNum)} loading="eager"/>
-            }
-          </div>
-          <div className="dots">
-            {(indexScreen + 1 == screen) &&
-            inform.info.at(index).images?.map((image: any, i: number) => {
-              // console.log("l ",infoArr.screens.at(screen - 1)?.info.at(index)?.images.length || 0)
-              //if (inform.images) {
-                if ((inform.info.at(index).images?.length || 0) < 2)
-                return
-              //}
-              let idStr = i.toString()
-              console.log(imageNum)
-              return(
-                <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
-                key={i} onClick={imageIndexChange}> </div>
-              )
-            })}
-          </div>
-      
-        </div>
-      </div>)}})}
+          <InfoScreen inform={inform} isMain={isMainScreen} index={index} 
+          indexScreen={indexScreen} screen={screen} textIndexChange={textIndexChange} />
+   
+    )}})}
 
     </div>
   )
