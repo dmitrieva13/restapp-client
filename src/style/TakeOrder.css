@@ -1,0 +1,76 @@
+.takeOrderPage {
+    width: 100vw;
+    height: 100vh;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.orderTitle {
+    width: 100%;
+    padding-top: 200px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.usernameInputBlock {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.orderTextBlock {
+    width: 200px;
+}
+
+.checkUserButtonBlock {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.changeUserButton {
+    border: initial;
+    color: rgb(150, 150, 150);
+    font-size: 12px;
+    font-weight: lighter;
+    font-style: italic;
+    text-align: left;
+}
+
+.changeUserButton:hover {
+    box-shadow: none;
+}
+
+.bonucesInputBlock, .sumInputBlock, .totalSumBlock, .getBonusesBlock {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.totalSumBlock {
+    padding-top: 30px;
+}
+
+.wrappedInput {
+    width: 100%;
+}
+
+.errorText {
+    color: red;
+}
+
+.totalSumText {
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+}
+
+.getBonusesText {
+    font-size: 18px;
+    width: 100%;
+}

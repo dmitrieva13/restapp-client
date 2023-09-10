@@ -110,6 +110,8 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   const [todaysDate, todaysDateSet] = useState("")
   const [isMainScreen, isMainScreenSet] = useState(0)
 
+  const [imageId, imageIdSet] = useState(0)
+
 
   let underlineTitle = (targetId: string) => {
     let titleDivs = Array.from(document.querySelectorAll(".title"))
@@ -124,6 +126,8 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   }
 
   let setActiveDots = (i: string) => {
+    console.log("from rest");
+    
     let dots = document.querySelectorAll(".dot")
     dots.forEach(d => {
       let dotID = d.id
@@ -185,7 +189,8 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
           indexSet(0)
           setTimeout(function(){
             // console.log(scrolling
-            imageNumSet(0)
+            // imageNumSet(0)
+            imageIdSet(0)
             setActiveDots('0')
           }, 1000)
 
@@ -352,7 +357,8 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
   let textIndexChange = (e: any) => {
     let id = e.target.id
     let indexes = id.split(".")
-    imageNumSet(0)
+    // imageNumSet(0)
+    imageIdSet(0)
     setTimeout(function(){
       // console.log(scrolling)
       console.log(id);
@@ -476,7 +482,8 @@ Nam eget metus sed est tincidunt tincidunt eu eget purus. Etiam massa tortor, ve
         console.log("screen: ", inform.info.at(index), "i: ", index)
         return(
           <InfoScreen inform={inform} isMain={isMainScreen} index={index} 
-          indexScreen={indexScreen} screen={screen} textIndexChange={textIndexChange} />
+          indexScreen={indexScreen} screen={screen} textIndexChange={textIndexChange} 
+          imageID={imageId} imageIDSet={imageIdSet}/>
    
     )}})}
 

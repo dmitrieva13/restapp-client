@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './style/App.css'
 
 function InfoScreen(props: {inform: any, isMain: any, index: number, 
-indexScreen: number, screen: number, textIndexChange: any}) {
+indexScreen: number, screen: number, textIndexChange: any,
+imageID: number, imageIDSet: any}) {
     const [imageNum, imageNumSet] = useState(0)
 
     // let underlineTitle = (targetId: string) => {
@@ -18,6 +19,8 @@ indexScreen: number, screen: number, textIndexChange: any}) {
     //   }
 
     let setActiveDots = (i: string) => {
+      console.log("from scr");
+      
         let dots = document.querySelectorAll(".dot")
         dots.forEach(d => {
           let dotID = d.id
@@ -32,18 +35,9 @@ indexScreen: number, screen: number, textIndexChange: any}) {
     let imageIndexChange = (e: any) => {
         let id = e.target.id
         setActiveDots(id)
-        // let dots = document.querySelectorAll(".dot")
-        // dots.forEach(d => {
-        //   let dotID = d.id
-        //   if (dotID === id) {
-        //     d.className += " active"
-        //   } else {
-        //     d.className = "dot"
-        //   }
-        // })
         setTimeout(function(){
           // console.log(scrolling)
-          imageNumSet(id)
+          props.imageIDSet(id)
         }, 200)
       }
 
@@ -58,7 +52,9 @@ indexScreen: number, screen: number, textIndexChange: any}) {
               let idStr = (props.indexScreen - props.isMain) + "." + i
               let cname = i == 0 ? "title selected" : "title" 
               return(
-                <div id={idStr} className={cname} key={i} onClick={props.textIndexChange}>
+                <div id={idStr} className={cname} key={i} onClick={
+                  props.textIndexChange
+                }>
                   {screenInfo.title}
                 </div>
               )
@@ -77,7 +73,7 @@ indexScreen: number, screen: number, textIndexChange: any}) {
         <div className="imagesBlock">
           <div className="image">
             {(props.indexScreen + 1 == props.screen) &&
-              <img src={props.inform.info.at(props.index).images?.at(imageNum)} loading="eager"/>
+              <img src={props.inform.info.at(props.index).images?.at(props.imageID)} loading="eager"/>
             }
           </div>
           <div className="dots">
@@ -89,10 +85,11 @@ indexScreen: number, screen: number, textIndexChange: any}) {
                 return
               //}
               let idStr = i.toString()
-              console.log(imageNum)
+              console.log("img: ",props.imageID)
+              let k = "dot" + i
               return(
                 <div id={idStr} className={i === 0 ? "dot active" : "dot"} 
-                key={i} onClick={imageIndexChange}> </div>
+                key={k} onClick={imageIndexChange}> </div>
               )
             })}
           </div>

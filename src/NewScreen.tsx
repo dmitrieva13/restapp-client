@@ -11,7 +11,7 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
     const [index, indexSet] = useState(0)
     const [titlesVisible, titlesVisibleSet] = useState(1)
     const [loaded, loadedSet] = useState(-1)
-    const [initTitlesCount, initTitlesCountSet] = useState(0)
+    const [initTitlesCount, initTitlesCountSet] = useState(1)
 
     const refText = useRef<any>(null)
 
@@ -22,21 +22,29 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
             texts: [] as any[5],
             imgs: [] as any[5]
         }
+        let newArr = [...imgArr]
+        newArr[index] = currentImgArr
+        imgArrSet(newArr)
         console.log(titles)
+        let count = 0
         titles.map((title: any, i: number) => {
             console.log(title, " title")
-            savedInfo.titles[i] = title
             if (title != "") {
-                savedInfo.texts[i] = textArr[i]
-                savedInfo.imgs[i] = imgArr[i]
-            } else {
-                savedInfo.texts[i] = ""
-                savedInfo.imgs[i] = []
+                console.log(newArr[i])
+                savedInfo.titles[count] = title
+                savedInfo.texts[count] = textArr[i]
+                savedInfo.imgs[count] = newArr[i]
+                count++
             }
         })
+        for (let i = count; i < 5; i++) {
+            savedInfo.titles[i] = ""
+            savedInfo.texts[i] = ""
+            savedInfo.imgs[i] = []
+        }
         props.infosChange(savedInfo, props.screenIndex)
-        console.log(savedInfo)
-      }
+        console.log("saved ",savedInfo)
+    }
 
     let addTitle = (title: string, id: number) => {
         let newArr = [...titles]
@@ -84,6 +92,7 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
     let newTitleButtonClicked = () => {
         let titlesCount = titlesVisible + 1
         titlesVisibleSet(titlesCount)
+        initTitlesCountSet(titlesCount)
         let titleDivs = Array.from(document.querySelectorAll(".newTitle"))
         titleDivs.map((tDiv: any, i: number) => {
             if (tDiv.id < titlesCount.toString()) {
@@ -123,36 +132,46 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
         indexSet(i)
     }
 
-    let saveButtonClicked = () => {}
+    // let saveButtonClicked = () => {
+    //     for (let i = 0; i < 5; i++) {
+    //         if 
+    //     }
+    // }
 
     useEffect(() => {
         console.log(loaded, props.screenIndex)
         if (loaded != props.screenIndex) {
             clearInputs()
             resetAddedInputs()
-            console.log(props.infos);
+            console.log("got info: ",props.infos);
             
             let titlesArr = ["","","","",""]
             let textsArr = ["","","","",""]
             let linksArr = [[],[],[],[],[]]
             let ciArr = ["","",""]
+            initTitlesCountSet(1)
+            let count = 0
             if (props.infos?.titles.length > 0) {
                 for (let i = 0; i < props.infos?.titles.length; i++) {
                     titlesArr[i] = props.infos?.titles[i]
                     textsArr[i]= props.infos?.texts[i]
                     linksArr[i] = props.infos?.imgs[i]
+                    if (props.infos?.titles[i] != '') {
+                        count++
+                    }
                 }
                 linksArr[0].map((link: any, i: number) => {
                     ciArr[i] = link
                 })
-                console.log("texts:", textsArr);
-                
+                console.log("count:", count);
+                initTitlesCountSet(count)
                 
             }
             titlesSet(titlesArr)
             textArrSet(textsArr)
             imgArrSet(linksArr)
             currentImgArrSet(ciArr)
+            indexSet(0)
             console.log("fetch ", textArr)
             loadedSet(props.screenIndex)
         }
@@ -164,7 +183,10 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
             <div className="newTitleText">Заголовки:</div>
             {titles.map((title: any, i: number) => {
                 let idStr = i.toString()
-                let cname = i == 0 ? "newTitle" : "newTitle invisible"
+                console.log("init ", initTitlesCount)
+                let cname = i < initTitlesCount ? "newTitle" : "newTitle invisible"
+                console.log(cname, " ", i, " ", title)
+                console.log("data: ", textArr)
                 return(
                     <div className={cname} id={idStr} key={i}>
                 <input className="newTitleInput" type="text" maxLength={30} value={titles[i]}
@@ -173,7 +195,10 @@ function NewScreen(props: {screenIndex: any, infos: any, infosChange: any}) {
             </div>
                 )
             })}
+            {
+                initTitlesCount < 5 &&
             <button className='newTitleButton' onClick={newTitleButtonClicked}>ДОБАВИТЬ ЗАГОЛОВОК</button>
+            }
             {/* <div className="newTitle" id="0">
                 <input className="newTitleInput" type="text" maxLength={30} value={titles[0]}
                     onChange={e => addTitle(e.target.value, 0)} 
