@@ -184,7 +184,7 @@ function TakeOrder() {
             </div>
             <div className="finishOrderBlock">
             <button className='finishOrderButton' hidden={!usernameChecked} 
-                    onClick={usernameCheck}>
+                    onClick={finishOrder}>
                         ЗАВЕРШИТЬ ЗАКАЗ
                     </button>
             </div>
